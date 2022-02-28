@@ -14,6 +14,7 @@ todoList.addEventListener("click", deleteTodo);
 function addTodo(e) {
   //Prevent natural behaviour
   e.preventDefault();
+
     if(todoInput.value == "" || todoDate.value == "") {
         alert("Please fill all the fields");
     } 
@@ -105,7 +106,7 @@ function deleteTodo(e) {
                 alert("Cant leave blank, please add some text");
             } else {
                 item.innerHTML = textarea.value;
-                updateTextTodo(item.parentElement.id, textarea.value);
+                updateTextTodo(todo.id, textarea.value);
             }
         });
     }   
