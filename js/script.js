@@ -1,4 +1,4 @@
-//Select DOM
+//Fetch DOM elements
 const todoInput = document.querySelector(".todo-input");
 const todoDate = document.querySelector(".todo-input-date");
 const todoButton = document.querySelector(".todo-button");
@@ -11,10 +11,6 @@ todoList.addEventListener("click", deleteTodo);
 
 //Functions
 
-function sortByDate (a,b) {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
-}
-
 function addTodo(e) {
   //Prevent natural behaviour
   e.preventDefault();
@@ -23,7 +19,7 @@ function addTodo(e) {
     } 
     else {    
         // Generate unique ID    
-        let unique = new Date().getTime();        
+        let unique = new Date().getTime();      
         // Create todo Obj 
         let newTodoObj = {
             uid: unique,
@@ -33,27 +29,27 @@ function addTodo(e) {
         //Save to local
         saveLocalTodos(newTodoObj);
         //Create todo div
-        const todoDiv = document.createElement("div");
+        let todoDiv = document.createElement("div");
         todoDiv.classList.add("todo");
         todoDiv.setAttribute("id", newTodoObj.uid);
         //Create list
-        const newTodo = document.createElement("div");
+        let newTodo = document.createElement("div");
         newTodo.innerText = todoInput.value;
-        newTodo.classList.add("todo-item");
+        newTodo.classList.add("todo-text");
         todoDiv.appendChild(newTodo);
         todoInput.value = "";
         //Create Completed Button
-        const completedButton = document.createElement("button");
+        let completedButton = document.createElement("button");
         completedButton.innerHTML = `<i class="fas fa-check"></i>`;
         completedButton.classList.add("complete-btn");
         todoDiv.appendChild(completedButton);
         //Create trash button
-        const trashButton = document.createElement("button");
+        let trashButton = document.createElement("button");
         trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
         trashButton.classList.add("trash-btn");
         todoDiv.appendChild(trashButton);
         //Create Date Text 
-        const newTodoDate = document.createElement("div");
+        let newTodoDate = document.createElement("div");
         newTodoDate.classList.add("todo-date");
         newTodoDate.innerText = todoDate.value;
         todoDate.value = "";
@@ -61,6 +57,10 @@ function addTodo(e) {
         //attach final Todo at the top of the list
         todoList.insertBefore(todoDiv, todoList.firstChild);
     }
+}
+
+function sortByDate (a,b) {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
 }
 
 function updateTextTodo(target, value) {
@@ -84,7 +84,6 @@ function deleteTodo(e) {
     let todo = item.parentElement;
     let todoList = todo.parentElement;
     if (item.classList[0] === "trash-btn") {
-        //at the end
         removeLocalTodos(todo.id);
         todo.remove();
     }
@@ -96,7 +95,7 @@ function deleteTodo(e) {
             todoList.insertBefore(todo, todoList.querySelector(".completed"));
         }
     } 
-    else if (item.classList[0] === "todo-item") {
+    else if (item.classList[0] === "todo-text") {
         item.innerHTML = `<textarea class="editable-div">${item.innerText}</textarea>`;
         // listen for blur on textarea
         let textarea = document.querySelector(".editable-div");
@@ -154,39 +153,14 @@ function getTodos() {
     todos.forEach(function(todo) {
         //Different approach for creating a todo using template literals 
 
-        const todoDiv = `
+        let todoDiv = `
         <div class="todo" id="${todo["uid"]}">
-            <div class="todo-item">${todo["text"]}</div>
+            <div class="todo-text">${todo["text"]}</div>
             <button class="complete-btn"><i class="fas fa-check"></i></button>
             <button class="trash-btn"><i class="fas fa-trash"></i></button>
             <div class="todo-date">${todo["date"]}</div>
         </div>
         `
-
-        /* //Create todo div
-        const todoDiv = document.createElement("div");
-        todoDiv.classList.add("todo");
-        todoDiv.setAttribute("id", todo["uid"])
-        //Create list
-        const newTodo = document.createElement("div");
-        newTodo.innerText = todo["text"];
-        newTodo.classList.add("todo-item");
-        todoDiv.appendChild(newTodo);
-        //Create Completed Button
-        const completedButton = document.createElement("button");
-        completedButton.innerHTML = `<i class="fas fa-check"></i>`;
-        completedButton.classList.add("complete-btn");
-        todoDiv.appendChild(completedButton);
-        //Create trash button
-        const trashButton = document.createElement("button");
-        trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        trashButton.classList.add("trash-btn");
-        todoDiv.appendChild(trashButton);
-        //Create Date Text 
-        const newTodoDate = document.createElement("div");
-        newTodoDate.classList.add("todo-date");
-        newTodoDate.innerText = todo["date"];
-        todoDiv.appendChild(newTodoDate); */
         //attach final Todo        
         todoList.insertAdjacentHTML("beforeEnd", todoDiv);
     });
