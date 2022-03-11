@@ -16,8 +16,8 @@ body {
     background: #576574;
     color: #fff;
     font-family: "Poppins", sans-serif;
-    height: 80%;
-    width: 80%;
+    height: 100%;
+    width: 100%;
     margin: auto;
     filter: drop-shadow(1px 5px 20px #222f3e);
 }

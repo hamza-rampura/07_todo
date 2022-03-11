@@ -25,7 +25,8 @@ function addTodo(e) {
         let newTodoObj = {
             uid: unique,
             text: todoInput.value,
-            date: todoDate.value
+            date: todoDate.value,
+            completion: false
         }
         //Save to local
         saveLocalTodos(newTodoObj);
@@ -100,7 +101,7 @@ function deleteTodo(e) {
         item.innerHTML = `<textarea class="editable-div">${item.innerText}</textarea>`;
         // listen for blur on textarea
         let textarea = document.querySelector(".editable-div");
-        textarea.focus(); //custom focus method run to avoid glitches, however this leads to teh cursor at the begining
+        textarea.focus(); //custom focus method run to avoid glitches, however this leads to the cursor at the begining
         textarea.addEventListener('blur', () => {
             if(textarea.value == "") {
                 alert("Cant leave blank, please add some text");
